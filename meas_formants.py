@@ -98,9 +98,7 @@ for tg in sys.argv[2:]:
                                  rms=meas.rms.text, f1=meas.f1.text,
                                  f2=meas.f2.text, f3=meas.f3.text, f4=meas.f4.text,
                                  f0=meas.f0.text, word=word.text)#, 
-#                                 context=context.text)
+#                                 context=context.text) #it is commented as we dont generate that field
                 )
-
-# fopen.close()
 
 os.unlink(tempifc)		
