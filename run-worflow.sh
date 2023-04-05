@@ -17,9 +17,9 @@ if [[ "$answer" =~ [yY](es)* ]]; then
         rm -rf $directory*.xlsx
         rm -rf $directory*.mean
         read -p "Select patient's gender for files being run (male/female/child): " gender
-        python3 meas-generator.py "$gender" "$directory"
-        python3 xlsxerator.py "$directory"
-        python3 acoustic-calc.py "$directory"
+        python3 run_scripts/meas-generator.py "$gender" "$directory"
+        python3 run_scripts/xlsxerator.py "$directory"
+        python3 run_scripts/acoustic-calc.py "$directory"
     else
         echo "Directory does not exist"
     fi
