@@ -1,4 +1,5 @@
 # cinci-lab-workflow
+
 This repository contains the workflow used by the Cinci Lab for processing and analyzing acoustic data. The workflow consists of three Python scripts: `acoustic-calc.py`, `meas-generator.py`, and `xlsxerator.py`. These scripts automate the process of generating acoustic measurements and exporting data to Excel files.
 
 ## Installation
@@ -38,6 +39,7 @@ python3 meas-generator.py <gender> /path/to/directory
 ```
 > This file will generate .meas files for all the .TextGrid files present in the directory.
 
+
 3. **Convert all .meas files to .xlsx**. Run `xlsxerator.py` with the path to a directory containing .meas files as input to generate Excel files. This is important as analysis can't be performed on a .meas file. For example:
 
 ```
@@ -55,7 +57,13 @@ python3 acoustic-calc.py /path/to/directory
 Make sure to replace `/path/to/directory` with the path to the directory you want to operate on, and replace `<gender>` with the patient's gender.
 
 ## Run as an Automation
-**Run all of the above scripts using just the `run-workflow.sh` file.** This is bash script which will run all different run-scripts for you. This is all you have to do:
+**Run all of the above scripts using just the `run-workflow.sh` file.** This is a bash script which will run all the run-scripts for you. 
+
+This one command will perform all the following functions:
+1. Generate .TextGrid files from .wav and .lab
+2. Generate .meas files from .TextGrid, .wav, and .lab
+3. Convert .meas files into .xlsx
+4. Perform VAI, F0 IQR, F2 Slope, & Vowel Duration calculations and store the resutls in `allfiles_result.xlsx`
 
 ```
 cd cinci-lab-workflow/
