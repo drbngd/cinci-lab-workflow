@@ -1,11 +1,11 @@
 # ==================================================================================
 # author:   Dhruv Raj Bangad (bangaddj@mail.uc.edu)
 # purpose:  To calculate vai, f0IQR, f2 slopes, & vowel durations
-# usage:    python3 acousticval-calc.py  <target_folder_address>
+# usage:    python3 acoustic-calc.py  <target_folder_address>
 # prereq:   make sure meas-generator.py & xlsxerator.py have been run right before
 # ==================================================================================
 
-import os, sys, math, glob, pandas as pd, numpy as np
+import os, sys, glob, pandas as pd
 from openpyxl import load_workbook
 
 
@@ -13,12 +13,12 @@ from openpyxl import load_workbook
 #           returns in pandas dataframe for individual file
 def getAcousticCalc(file):
     # get data in a df from file
-    print(f'acousticval-calc.py: Running calculations on {file}')
+    print(f'acoustic-calc.py: Running calculations on {file}')
     df_in = pd.read_excel(file)
 
     # BEGIN: vai calculation
     # first get F1, F2, VOWELS for mid-value of each vowel
-    print(f'acousticval-calc.py: Calculating VAI...')
+    print(f'acoustic-calc.py: Calculating VAI...')
     vai = ''
     vowels = list(df_in['vowel'])
     f1 = list(df_in['f1'])
@@ -71,20 +71,20 @@ def getAcousticCalc(file):
         vai = str(vai_num)  
     else:                           # if False -> one of the vowels wasn't present
         vai = 'NA'              # vai is NA is one or more vowels were absent   
-    print(f'acousticval-calc.py: DONE calculating VAI')
+    print(f'acoustic-calc.py: DONE calculating VAI')
     # END: vai calculation
 
     # BEGIN: F0 IQR calculation
-    print(f'acousticval-calc.py: Calculating F0 IQR...')
+    print(f'acoustic-calc.py: Calculating F0 IQR...')
     f0_q1 = df_in['f0'].quantile(0.25)
     f0_q3 = df_in['f0'].quantile(0.75)
     f0_IQR = f0_q3 - f0_q1
-    print(f'acousticval-calc.py: DONE calculating F0 IQR')
+    print(f'acoustic-calc.py: DONE calculating F0 IQR')
     # END: F0 IQR calculation
 
     # BEGIN: F2 SLOPE calculations
     # getting required values
-    print(f'acousticval-calc.py: Calculating F2 Slopes...')
+    print(f'acoustic-calc.py: Calculating F2 Slopes...')
     f2 = list(df_in['f2'])
     lintime = list(df_in['lintime'])
     vowels = list(df_in['vowel'])
@@ -133,11 +133,11 @@ def getAcousticCalc(file):
             else:
                 f2_slope[i][j] = 'NA'   # if den == 0, then slope is NaN
     
-    print(f'acousticval-calc.py: DONE calculating F2 Slopes')        
+    print(f'acoustic-calc.py: DONE calculating F2 Slopes')        
     # END: F2 slope calculation
 
     # BEGIN: vowel duration calculation
-    print(f'acousticval-calc.py: Calculating Vowel Duration...')
+    print(f'acoustic-calc.py: Calculating Vowel Duration...')
     valid_vowel_list = ['AY','AW','OY','EY','OW','IY','IH','EH','AE','UW','UH','AO','AA','AH0','AH1'] # all the vaild vowels
     vowel_duration = [[],[]]    # [[vowel], [duration]]
     vowels = list(df_in['vowel'])
@@ -151,33 +151,33 @@ def getAcousticCalc(file):
             vowel_duration[1].append(t2[i]-t1[i])
         i+=7    # skipping to next vowel
 
-    print(f'acousticval-calc.py: DONE calculating Vowel Duration')
+    print(f'acoustic-calc.py: DONE calculating Vowel Duration')
     # END: vowel duration calculation
 
     # BEGIN: putting calculated data into a dataframe
-    print(f'acousticval-calc.py: Adding calculated data to pandas dataframe...')
+    print(f'acoustic-calc.py: Adding calculated data to pandas dataframe...')
     df_out = pd.DataFrame(columns=['MEASUREMENT', 'VALUE'])
 
     # populating the data frame
     df_rows = [{'MEASUREMENT': 'VAI', 'VALUE': vai},
-            {'MEASUREMENT': 'F0 IQR', 'VALUE': f0_IQR},
-            {'MEASUREMENT': 'F2 Slope Narrow AW', 'VALUE': f2_slope[0][0]},
-            {'MEASUREMENT': 'F2 Slope Wide AW', 'VALUE': f2_slope[0][1]},
-            {'MEASUREMENT': 'F2 Slope Max AW', 'VALUE': f2_slope[0][2]},
-            {'MEASUREMENT': 'F2 Slope Narrow AY', 'VALUE': f2_slope[1][0]},
-            {'MEASUREMENT': 'F2 Slope Wide AY', 'VALUE': f2_slope[1][1]},
-            {'MEASUREMENT': 'F2 Slope Max AY', 'VALUE': f2_slope[1][2]},
-            {'MEASUREMENT': 'F2 Slope Narrow EY', 'VALUE': f2_slope[2][0]},
-            {'MEASUREMENT': 'F2 Slope Wide EY', 'VALUE': f2_slope[2][1]},
-            {'MEASUREMENT': 'F2 Slope Max EY', 'VALUE': f2_slope[2][2]},
-            {'MEASUREMENT': 'F2 Slope Narrow OW', 'VALUE': f2_slope[3][0]},
-            {'MEASUREMENT': 'F2 Slope Wide OW', 'VALUE': f2_slope[3][1]},
-            {'MEASUREMENT': 'F2 Slope Max OW', 'VALUE': f2_slope[3][2]},
-            {'MEASUREMENT': 'F2 Slope Narrow OY', 'VALUE': f2_slope[4][0]},
-            {'MEASUREMENT': 'F2 Slope Wide OY', 'VALUE': f2_slope[4][1]},
-            {'MEASUREMENT': 'F2 Slope Max OY', 'VALUE': f2_slope[4][2]},
+            {'MEASUREMENT': 'F0_IQR', 'VALUE': f0_IQR},
+            {'MEASUREMENT': 'F2Slope_Narrow_AW', 'VALUE': f2_slope[0][0]},
+            {'MEASUREMENT': 'F2Slope_Wide_AW', 'VALUE': f2_slope[0][1]},
+            {'MEASUREMENT': 'F2Slope_Max_AW', 'VALUE': f2_slope[0][2]},
+            {'MEASUREMENT': 'F2Slope_Narrow_AY', 'VALUE': f2_slope[1][0]},
+            {'MEASUREMENT': 'F2Slope_Wide_AY', 'VALUE': f2_slope[1][1]},
+            {'MEASUREMENT': 'F2Slope_Max_AY', 'VALUE': f2_slope[1][2]},
+            {'MEASUREMENT': 'F2Slope_Narrow_EY', 'VALUE': f2_slope[2][0]},
+            {'MEASUREMENT': 'F2Slope_Wide_EY', 'VALUE': f2_slope[2][1]},
+            {'MEASUREMENT': 'F2Slope_Max_EY', 'VALUE': f2_slope[2][2]},
+            {'MEASUREMENT': 'F2Slope_Narrow_OW', 'VALUE': f2_slope[3][0]},
+            {'MEASUREMENT': 'F2Slope_Wide_OW', 'VALUE': f2_slope[3][1]},
+            {'MEASUREMENT': 'F2Slope_Max_OW', 'VALUE': f2_slope[3][2]},
+            {'MEASUREMENT': 'F2Slope_Narrow_OY', 'VALUE': f2_slope[4][0]},
+            {'MEASUREMENT': 'F2Slope_Wide_OY', 'VALUE': f2_slope[4][1]},
+            {'MEASUREMENT': 'F2slope_Max_OY', 'VALUE': f2_slope[4][2]},
             {'MEASUREMENT': '', 'VALUE': ''},
-            {'MEASUREMENT': 'VOWEL DURATION', 'VALUE': ''}]
+            {'MEASUREMENT': 'VOWEL_DURATION', 'VALUE': ''}]
 
     # populating with vowel durations
     # df_rows = []
@@ -185,46 +185,103 @@ def getAcousticCalc(file):
         df_rows.append({'MEASUREMENT': vowel_duration[0][i], 'VALUE': vowel_duration[1][i]})
 
     df_out = df_out.append(df_rows, ignore_index=True)
-    print(f'acousticval-calc.py: DONE populating pandas data frame')
+    print(f'acoustic-calc.py: DONE populating pandas data frame')
     return df_out
     # FUNCTION: end of function
 
+# FUNCTION: generates a data set per sentence for the main results file
+def getRowDataAllFiles(file, df):
+    
+    # df_in = pd.read_excel(file, sheet_name='CALCULATIONS')
+    # adding data into a row:
+    filename = os.path.splitext(os.path.basename(file))[0]
+    values = [filename]
+    values += list(df['VALUE'][0:17]) # getting values until F2SLOPE
 
-# get all xlsx files
+    # calculating the vowel durations
+    vowels_fromDF = list(df['MEASUREMENT'][19:])
+    duration_fromDF = list(df['VALUE'][19:])
+    
+    # calculating duration for each vowel
+    vowel_duration_data = [[0,0,0] for _ in range(15)] # initializing list for duration and count of each vowel
+    total_vowel_duration = 0
+    total_vowel_count = 0
+    avg_vowel_duration = 0
+
+    vowel_indices = {'AY': 0, 'AW': 1, 'OY': 2, 'EY': 3, 'OW': 4, 'IY': 5, 'IH': 6, 'EH': 7, 'AE': 8, 'UW': 9, 'UH': 10, 'AO': 11, 'AA': 12, 'AH0': 13, 'AH1': 14}
+
+    for i, vowel in enumerate(vowels_fromDF):
+        if vowel in vowel_indices:
+            index = vowel_indices[vowel]
+            vowel_duration_data[index][0] += duration_fromDF[i] # cumulating duration time
+            vowel_duration_data[index][1] += 1                  # incrementing on occurences
+            total_vowel_duration += duration_fromDF[i]
+            total_vowel_count += 1
+    
+    # calculating average duration
+    for i, vowel in enumerate(vowels_fromDF):
+        if vowel in vowel_indices:
+            index = vowel_indices[vowel]
+            vowel_duration_data[index][2] = vowel_duration_data[index][0]/vowel_duration_data[index][1]
+
+    # appending to values
+    values += [val for sublist in vowel_duration_data for val in sublist]
+    values += [total_vowel_duration, total_vowel_count, avg_vowel_duration]
+
+    return values   # to be inserted as a new row in the all file dataframe
+    # FUNCTION: end of function
+    
+
+    
+'''---fetching all the files in the target dir---'''
+# get all xlsx files in the target dir
 wd = sys.argv[1]
-print(f'acousticval-calc.py: Getting all the .xlsx files in {wd}...')
+print(f'acoustic-calc.py: Getting all the .xlsx files in {wd}...')
 
 search_path = f'{wd}/*.xlsx'            # search text to get all .xlsx files in wd
 xlsx_files = glob.glob(search_path)     # xlsx_files contains the addresses of all .xlsx files in wd
-print('acousticval-calc.py: DONE FETCHING')
-print(f'acousticval-calc.py: Number of files fetched: {len(xlsx_files)}')
+print('acoustic-calc.py: DONE FETCHING')
+print(f'acoustic-calc.py: Number of files fetched: {len(xlsx_files)}')
+
+'''---setting up results file's pandas dataframe and filename---'''
+# file name for storing all file results
+final_results_file = dir_address = wd + 'allfile_results.xlsx'
+
+# data frame for the all results file
+df_all = pd.DataFrame(columns=['SOURCE', 'VAI', 'F0_IQR', 'F2Slope_Narrow_AW', 'F2Slope_Wide_AW', 'F2Slope_Max_AW',
+                                'F2Slope_Narrow_AY', 'F2Slope_Wide_AY', 'F2Slope_Max_AY', 'F2Slope_Narrow_EY', 'F2Slope_Wide_EY',
+                                'F2Slope_Max_EY', 'F2Slope_Narrow_OW', 'F2Slope_Wide_OW', 'F2Slope_Max_OW', 'F2Slope_Narrow_OY',
+                                'F2Slope_Wide_OY', 'F2Slope_Max_OY', 'AY_TOTAL_DURATION', 'AY_COUNT', 'AY_AVG_DURATION',
+                                'AW_TOTAL_DURATION', 'AW_COUNT', 'AW_AVG_DURATION', 'OY_TOTAL_DURATION', 'OY_COUNT',
+                                'OY_AVG_DURATION', 'EY_TOTAL_DURATION', 'EY_COUNT', 'EY_AVG_DURATION', 'OW_TOTAL_DURATION',
+                                'OW_COUNT', 'OW_AVG_DURATION', 'IY_TOTAL_DURATION', 'IY_COUNT', 'IY_AVG_DURATION', 'IH_TOTAL_DURATION',
+                                'IH_COUNT', 'IH_AVG_DURATION', 'EH_TOTAL_DURATION', 'EH_COUNT', 'EH_AVG_DURATION', 'AE_TOTAL_DURATION',
+                                'AE_COUNT', 'AE_AVG_DURATION', 'UW_TOTAL_DURATION', 'UW_COUNT', 'UW_AVG_DURATION', 'UH_TOTAL_DURATION',
+                                'UH_COUNT', 'UH_AVG_DURATION', 'AO_TOTAL_DURATION', 'AO_COUNT', 'AO_AVG_DURATION', 'AA_TOTAL_DURATION',
+                                'AA_COUNT', 'AA_AVG_DURATION', 'AH0_TOTAL_DURATION', 'AH0_COUNT', 'AH0_AVG_DURATION', 'AH1_TOTAL_DURATION',
+                                'AH1_COUNT', 'AH1_AVG_DURATION', 'TOTAL_VOWEL_DURATION', 'TOTAL_VOWEL_COUNT', 'AVG_VOWEL_DURATION'])
 
 
-# create a new dataframe for all files in a folder
-df_all = pd.DataFrame()
-
+'''---starting calculation and processing of all the acoustic values---'''
 # performing calculations on each collected file
+# also getting row data for df_all dataframe
 # https://stackoverflow.com/questions/42370977/how-to-save-a-new-sheet-in-an-existing-excel-file-using-pandas
 for file in xlsx_files:
     df_file = getAcousticCalc(file)     # getting data frame with calculated values
-
+    row_data = getRowDataAllFiles(file, df_file)    # getting row data for all results file
+    
+    # storing the calculated the acoustic values
     wbook = load_workbook(file)
     writer = pd.ExcelWriter(file, engine = 'openpyxl')
     writer.book = wbook
     df_file.to_excel(writer, sheet_name = 'CALCULATIONS') # added dataframe to a new sheet
     writer.close()
-    print(f'acousticval-calc.py: ALL CALCULATIONS HAVE BEEN PERFORMED on {file}')
-    print('acousticval-calc.py: ')
+    print(f'acoustic-calc.py: ALL CALCULATIONS HAVE BEEN PERFORMED & STORED in {file}')
+    
+    df_all.loc[len(df_all)] = row_data
+    print('acoustic-calc.py: and results have been written to the all_results.xlsx file\n')
 
-
-# get all the values in it and send to the calculator
-# add a new sheet and add the calculations in it
-# also generate a row to be added for the main df
-
-
-# df for each individual file
-
-# df for the main excel sheet
-
-
-# calculation for each excel sheet
+# uploading row data to excel workbook
+df_all.to_excel(final_results_file, 'RESULTS')
+print(f'acoustic-calc.py: FINAL RESULTS file has been generated and is located here: {final_results_file}')
+print('acoustic-calc.py: COMPLETED')
