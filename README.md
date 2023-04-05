@@ -16,7 +16,6 @@ Before using these scripts, you will need to install the necessary dependencies.
 
 ```
 ./setup-workflow.sh
-
 ```
 
 
