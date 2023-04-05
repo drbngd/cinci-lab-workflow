@@ -35,11 +35,3 @@ for file in tg_files:
 
 print('meas-generator.py: COMPLETED generation of .meas files')
 print(f'meas-generator.py: MEAS FILES GENERATED - {success_count} | FAILS - {len(tg_files) - success_count}')
-    
-
-
-
-
-
-# run meas_formants.py on all of them
-# check return code incase it fails
