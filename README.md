@@ -15,18 +15,27 @@ git clone https://github.com/drbngd/cinci-lab-workflow.git
 
 ## Usage
 
-To use the Cinci Lab Workflow, navigate to the directory where the repository is located and run one of the following commands:
+The Cinci Lab Workflow can be used to generate summary statistics for acoustic data in three steps:
+
+1. **Generate .meas files with acoustic measurements**. Run `acoustic-calc.py` with the path to a directory containing .txt files as input to generate .meas files with acoustic measurements. For example:
 
 ```
-python3 acoustic-calc.py /path/to/directory
 python3 meas-generator.py <gender> /path/to/directory
+```
+
+2. **Generate summary statistics for a single patient**. Run `meas-generator.py` with the patient's gender and the path to a directory containing .meas files as input to generate a new .meas file with summary statistics for the patient. Replace `<gender>` with "male", "female", or "child" depending on the patient's gender. For example:
+
+```
+python3 meas-generator.py <gender> /path/to/directory
+```
+
+3. **Generate Excel files with summary statistics for all patients**. Run `xlsxerator.py` with the path to a directory containing .meas files as input to generate Excel files with summary statistics for each patient. For example:
+
+```
 python3 xlsxerator.py /path/to/directory
 ```
 
-- `acoustic-calc.py` takes a directory containing .txt files as input and generates .meas files with acoustic measurements.
-- `meas-generator.py` takes the patient's gender and a directory containing .meas files as input and generates a new .meas file with summary statistics for the patient.
-- `xlsxerator.py` takes a directory containing .meas files as input and generates Excel files with summary statistics for each patient.
+Make sure to replace `/path/to/directory` with the path to the directory you want to operate on, and replace `<gender>` with the patient's gender.
 
-Make sure to replace `/path/to/directory` with the path to the directory you want to operate on, and replace `<gender>` with "male", "female", or "child" depending on the patient's gender.
 
 
