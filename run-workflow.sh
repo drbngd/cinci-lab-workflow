@@ -3,7 +3,7 @@
 # author:   Dhruv Raj Bangad (bangaddj@mail.uc.edu)
 # purpose:  To automate .meas generation, .xlsx conversion, 
 #           and acoustic values calculations
-# usage:    ./run-workflow.sh <path/to/target/dir/>
+# usage:    ./run-workflow.sh <full/path/to/target/dir/>
 # prereq:   make sure you run the setup-workflow.sh file
 #           to get any missing dependencies
 # ==================================================================================
@@ -18,10 +18,10 @@ if [[ "$answer" =~ [yY](es)* ]]; then
         rm -rf $directory*.meas
         rm -rf $directory*.TextGrid
         read -p "Select patient's gender for files being run (male/female/child): " gender
-        ./textgrid-generator.sh "$directory"
-        python3 run_scripts/meas-generator.py "$gender" "$directory"
-        python3 run_scripts/xlsxerator.py "$directory"
-        python3 run_scripts/acoustic-calc.py "$directory"
+        ./run_scripts/textgrid-generator.sh "$directory"                # generate .TextGrid files
+        python3 run_scripts/meas-generator.py "$gender" "$directory"    # generate .meas files
+        python3 run_scripts/xlsxerator.py "$directory"                  # convert .meas to .xlsx 
+        python3 run_scripts/acoustic-calc.py "$directory"               # do all the calculations
     else
         echo "Directory does not exist"
     fi
