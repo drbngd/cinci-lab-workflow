@@ -219,6 +219,7 @@ def getRowDataAllFiles(file, df):
             total_vowel_count += 1
     
     # calculating average duration
+    avg_vowel_duration = total_vowel_duration/total_vowel_count
     for i, vowel in enumerate(vowels_fromDF):
         if vowel in vowel_indices:
             index = vowel_indices[vowel]
