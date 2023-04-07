@@ -10,12 +10,13 @@
 
 directory="$1"
 
-read -p "This script will overwrite all existing .meas and .xlsx files. Do you want to continue? (y/n): " answer
+read -p "This script will delete/overwrite all existing .TextGrid, .meas and .xlsx files. Do you want to continue? (y/n): " answer
 
 if [[ "$answer" =~ [yY](es)* ]]; then
     if [ -d "$directory" ]; then
         rm -rf $directory*.xlsx
-        rm -rf $directory*.mean
+        rm -rf $directory*.meas
+        rm -rf $directory*.TextGrid
         read -p "Select patient's gender for files being run (male/female/child): " gender
         python3 run_scripts/meas-generator.py "$gender" "$directory"
         python3 run_scripts/xlsxerator.py "$directory"
