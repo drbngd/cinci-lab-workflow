@@ -10,7 +10,7 @@
 
 directory="$1"
 
-read -p "This script will delete/overwrite all existing .TextGrid, .meas and .xlsx files. Do you want to continue? (y/n): " answer
+read -p "This script will delete/overwrite all existing {.TextGrid}, {.meas}, and {.xlsx} files. Do you want to continue? (y/n): " answer
 
 if [[ "$answer" =~ [yY](es)* ]]; then
     if [ -d "$directory" ]; then
