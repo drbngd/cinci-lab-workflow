@@ -18,6 +18,7 @@ if [[ "$answer" =~ [yY](es)* ]]; then
         rm -rf $directory*.meas
         rm -rf $directory*.TextGrid
         read -p "Select patient's gender for files being run (male/female/child): " gender
+        ./textgrid-generator.sh "$directory"
         python3 run_scripts/meas-generator.py "$gender" "$directory"
         python3 run_scripts/xlsxerator.py "$directory"
         python3 run_scripts/acoustic-calc.py "$directory"
