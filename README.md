@@ -8,6 +8,7 @@ You can download the Cinci Lab Workflow repository by running the following comm
 
 ```
 git clone https://github.com/drbngd/cinci-lab-workflow.git
+chmod -R +x cinci-lab-workflow
 ```
 
 ## Setup
