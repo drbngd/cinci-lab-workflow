@@ -24,7 +24,7 @@ success_count = 0
 print('meas-generator.py: Running meas_formants.py on each .TextGrid file...')
 for file in tg_files:
     print(f'meas-generator.py: Generating .meas file for {file}')
-    exit_code = os.system(f'python3 meas_formants.py {gender} {file}')
+    exit_code = os.system(f'python3 run_scripts/meas_formants.py {gender} {file}')
     if exit_code != 0:
         print('meas-generator.py: ERROR while generating .meas file for {file}')
         print('meas-generator.py: make sure that .wav and .lab files are present as well')
