@@ -26,7 +26,7 @@ cd cinci-lab-workflow/
 ```
 
 ## Run
-**Run all of the above scripts using just the `run-workflow.sh` file.** This is a bash script which will run all the run-scripts for you. 
+**Run all of the scripts in `run_scripts/` using just the `run-workflow.sh` file.** This is a bash script which will run all the run-scripts for you. 
 
 This one command will perform all the following functions:
 1. Generate .TextGrid files from .wav and .lab
