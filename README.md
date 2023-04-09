@@ -39,5 +39,5 @@ This how you run this script:
 cd cinci-lab-workflow/
 ./run-workflow.sh /full/path/to/directory
 ```
-> **It is important that you give the full path to the directory, otherwise the expected results wont be achieved.**
-> This file will ask you to specify the gender after running it, as it is important to generate the .meas files
+>- **It is important that you give the full path to the directory, otherwise the expected results wont be achieved.**
+>- This file will ask you to specify the gender after running it, as it is important to generate the .meas files
