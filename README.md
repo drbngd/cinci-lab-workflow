@@ -34,7 +34,7 @@ This one command will perform all the following functions:
 3. Convert .meas files into .xlsx
 4. Perform VAI, F0 IQR, F2 Slope, & Vowel Duration calculations and store the resutls in `allfiles_result.xlsx`
 
-This how you run this file:
+This how you run this script:
 ```
 cd cinci-lab-workflow/
 ./run-workflow.sh /path/to/directory
