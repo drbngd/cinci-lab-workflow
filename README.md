@@ -26,7 +26,7 @@ cd cinci-lab-workflow/
 ```
 
 ## Run
-**Run all of the scripts in `run_scripts/` using just the `run-workflow.sh` file.** This is a bash script which will run all the run-scripts for you. 
+**Run all of the scripts in `run_scripts/` using just the `run-workflow.sh` file.**
 
 This one command will perform all the following functions:
 1. Generate .TextGrid files from .wav and .lab
@@ -34,6 +34,7 @@ This one command will perform all the following functions:
 3. Convert .meas files into .xlsx
 4. Perform VAI, F0 IQR, F2 Slope, & Vowel Duration calculations and store the resutls in `allfiles_result.xlsx`
 
+This how you run this file:
 ```
 cd cinci-lab-workflow/
 ./run-workflow.sh /path/to/directory
