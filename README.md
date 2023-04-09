@@ -13,9 +13,15 @@ chmod -R +x cinci-lab-workflow
 
 ## Setup
 
-Before using these scripts, you will need to install the necessary dependencies. To do so, run the following command:
+Before using these scripts, you will need to install the necessary dependencies. This step will:
+1. Build & Install HTK 3.4.1
+2. Install & Update pip
+3. Download necessary python libraries
+
+To do so, run the following command:
 
 ```
+cd cinci-lab-workflow/
 ./setup-workflow.sh
 ```
 
